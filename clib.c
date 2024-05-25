@@ -6,6 +6,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "struct_FILE.h"
 #include "sys/stat.h"
 
 void read_from_file(const char* filename)
@@ -466,3 +467,87 @@ void* allocate(size_t const size)
     result = (void*)mmap_result;
     return result;
 }
+
+
+int clib_connect(int sockfd, const struct sockaddr* addr, __socklen_t addrlen)
+{
+    if (addr == NULL)
+    {
+        errno = EINVAL;
+        perror("connect_asm");
+        return NULL_FAILURE;
+    }
+
+    long result;
+    asm volatile("movq $42, %%rax\n" // syscall number for connect
+                 "movq %1, %%rdi\n"  // sockfd
+                 "movq %2, %%rsi\n"  // addr
+                 "movq %3, %%rdx\n"  // addrlen
+                 "syscall\n"         // invoke syscall
+                 "movq %%rax, %0\n"  // store result in variable
+                 : "=r"(result)
+                 : "r"((long)sockfd), "r"(addr), "r"((long)addrlen)
+                 : "%rax", "%rdi", "%rsi", "%rdx");
+
+    if (result < 0)
+    {
+        errno = -result;
+        perror("connect_asm");
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
+
+void assert_statement(const char* condition, const char* file, int line)
+{
+    fprintf(stderr, "Assertion failed: (%s), file %s, line %d.\n", condition, file, line);
+
+    // Inline assembly to invoke a system call to abort the program
+    asm volatile("movq $60, %%rax\n" // syscall number for exit (60)
+                 "movq $1, %%rdi\n"  // exit status (1 indicates failure)
+                 "syscall\n"         // invoke syscall
+                 :
+                 :
+                 : "%rax", "%rdi");
+
+    // In case the syscall fails, ensure the program still terminates
+    abort();
+}
+
+ssize_t asm_read(int fd, void* buf, size_t count)
+{
+    ssize_t result;
+    asm volatile("movq $0, %%rax\n" // syscall number for read (0)
+                 "movq %1, %%rdi\n" // file descriptor
+                 "movq %2, %%rsi\n" // buffer
+                 "movq %3, %%rdx\n" // count
+                 "syscall\n"        // invoke syscall
+                 "movq %%rax, %0\n" // store result in variable
+                 : "=r"(result)
+                 : "r"((long)fd), "r"(buf), "r"((long)count)
+                 : "%rax", "%rdi", "%rsi", "%rdx");
+
+    return result;
+}
+
+
+// Define the fileno_asm function
+// int fileno_asm(FILE* file)
+// {
+//     if (file == NULL)
+//     {
+//         errno = EINVAL;
+//         perror("fileno_asm");
+//         return -1;
+//     }
+
+//     int fd;
+//     asm volatile("movq (%1), %0\n" // Move the value at the address of file (the file descriptor) into fd
+//                  : "=r"(fd)        // Output operand
+//                  : "r"(file)       // Input operand
+//     );
+
+//     return fd;
+// }

@@ -11,6 +11,7 @@
 
 */
 
+#include <bits/types.h>
 #include "def.h"
 #include "stdio.h"
 
@@ -191,5 +192,11 @@ u8 append_str(char* dest, const char* src, size_t dest_size);
 */
 void* allocate(size_t const size);
 
+
+int clib_connect(int sockfd, const struct sockaddr* addr, __socklen_t addrlen);
+
+#define assert_expr(condition) ((condition) ? (void)0 : assert_statement(#condition, __FILE__, __LINE__))
+
+void assert_statement(const char* condition, const char* file, int line);
 
 #endif /* CLIB_H */
