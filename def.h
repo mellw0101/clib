@@ -61,37 +61,30 @@ typedef __int32_t i32;
 typedef __int16_t i16;
 typedef __int8_t  i8;
 
+
 typedef __uint64_t u64;
 typedef __uint32_t u32;
 typedef __uint16_t u16;
 typedef __uint8_t  u8;
+
+
+typedef u64 uint64_t;
+typedef u32 uint32_t;
+typedef u16 uint16_t;
+typedef u8  uint8_t;
+
+
+typedef i64 int64_t;
+typedef i32 int32_t;
+typedef i16 int16_t;
+typedef i8  int8_t;
+
 
 typedef u64 size_t;
 typedef i64 ssize_t;
 
 typedef unsigned int __socklen_;
 
-
-    #ifndef DIRECTORY_EXISTS
-        #define DIRECTORY_EXISTS 1
-    #else
-        #undef DIRECTORY_EXISTS
-        #define DIRECTORY_EXISTS 1
-    #endif
-
-    #ifndef IS_NOT_A_DIRECTORY
-        #define IS_NOT_A_DIRECTORY 0
-    #else
-        #undef IS_NOT_A_DIRECTORY
-        #define IS_NOT_A_DIRECTORY 0
-    #endif
-
-    #ifndef DOES_NOT_EXIST
-        #define DOES_NOT_EXIST 2
-    #else
-        #undef DOES_NOT_EXIST
-        #define DOES_NOT_EXIST 2
-    #endif
 
     #ifndef SUCCESS
         #define SUCCESS 0
@@ -114,6 +107,27 @@ typedef unsigned int __socklen_;
         #define NULL_FAILURE 2
     #endif
 
+    #ifndef DIRECTORY_EXISTS
+        #define DIRECTORY_EXISTS 3
+    #else
+        #undef DIRECTORY_EXISTS
+        #define DIRECTORY_EXISTS 3
+    #endif
+
+    #ifndef IS_NOT_A_DIRECTORY
+        #define IS_NOT_A_DIRECTORY 4
+    #else
+        #undef IS_NOT_A_DIRECTORY
+        #define IS_NOT_A_DIRECTORY 4
+    #endif
+
+    #ifndef DOES_NOT_EXIST
+        #define DOES_NOT_EXIST 5
+    #else
+        #undef DOES_NOT_EXIST
+        #define DOES_NOT_EXIST 5
+    #endif
+
     // Custom attributes for GCC
     #ifndef __THROW
         #define __THROW
@@ -127,13 +141,14 @@ typedef unsigned int __socklen_;
         #define __wur __attribute__((warn_unused_result))
     #endif
 
+    #define EXIT_FAILURE 1
+    #define EXIT_SUCCESS 0
 
 typedef unsigned short sa_family_t;
 
-typedef long int __off_t;
-    #ifndef __off64_t
-        #define __off64_t long long int
-    #endif
+    #define O_CREAT 0x40
+    #define O_WRONLY 0x01
+
 struct sockaddr
 {
     sa_family_t sa_family;   // Address family (e.g., AF_INET for IPv4)

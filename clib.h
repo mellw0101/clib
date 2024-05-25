@@ -11,9 +11,10 @@
 
 */
 
-#include <bits/types.h>
+#include <stdio.h>
+#include <sys/cdefs.h>
 #include "def.h"
-#include "stdio.h"
+
 
 /**
 
@@ -25,7 +26,6 @@
 
 */
 void read_from_file(const char* filename);
-
 
 u8 clib_fputs(const char* restrict s, FILE* restrict stream);
 
@@ -195,8 +195,20 @@ void* allocate(size_t const size);
 
 int clib_connect(int sockfd, const struct sockaddr* addr, __socklen_t addrlen);
 
-#define assert_expr(condition) ((condition) ? (void)0 : assert_statement(#condition, __FILE__, __LINE__))
+#ifndef assert
+    #define assert(condition) ((condition) ? (void)0 : assert_statement(#condition, __FILE__, __LINE__))
+#else
+    #define clib_assert(condition) ((condition) ? (void)0 : assert_statement(#condition, __FILE__, __LINE__))
+#endif
 
 void assert_statement(const char* condition, const char* file, int line);
+
+
+void       exit(int __status) __attribute__((__noreturn__));
+extern int open(const char* pathname, int flags, ...);
+// extern void perror(const char* __s) __THROW;
+void abort(void);
+// int  close(int fd);
+
 
 #endif /* CLIB_H */

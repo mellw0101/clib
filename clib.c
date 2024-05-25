@@ -4,7 +4,6 @@
 #include "errno.h"
 #include "pwd.h"
 #include "stdio.h"
-#include "stdlib.h"
 #include "string.h"
 #include "struct_FILE.h"
 #include "sys/stat.h"
@@ -532,6 +531,51 @@ ssize_t asm_read(int fd, void* buf, size_t count)
     return result;
 }
 
+void exit(int status)
+{
+    asm volatile("mov $60, %%rax\n" // syscall number for exit
+                 "mov %0, %%rdi\n"  // exit status
+                 "syscall\n"        // invoke syscall
+                 :
+                 : "r"((u64)status) // make sure the status is passed as a 64-bit value
+                 : "%rax", "%rdi");
+
+    __builtin_unreachable(); // Ensure the compiler knows this code is unreachable
+}
+
+void abort(void)
+{
+    asm volatile("mov $60, %%rax\n" // syscall number for exit (60)
+                 "mov $1, %%rdi\n"  // exit status (1 indicates failure)
+                 "syscall\n"        // invoke syscall
+                 :
+                 :
+                 : "%rax", "%rdi");
+
+    // In case the syscall fails, ensure the program still terminates
+    __builtin_unreachable(); // Indicate to the compiler that this point is never reached
+}
+
+// int close(int fd)
+// {
+//     long result;
+
+//     asm volatile("mov $3, %%rax\n"
+//                  "mov %1, %%rdi\n"
+//                  "syscall\n"
+//                  "mov %%rax, %0\n"
+//                  : "=r"(result)
+//                  : "r"(fd)
+//                  : "%rax", "%rdi");
+
+//     if (result < 0)
+//     {
+//         errno = -result;
+//         return FAILURE;
+//     }
+
+//     return SUCCESS;
+// }
 
 // Define the fileno_asm function
 // int fileno_asm(FILE* file)

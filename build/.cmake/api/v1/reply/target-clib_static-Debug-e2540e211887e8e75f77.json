@@ -1,8 +1,9 @@
 {
+	"archive" : {},
 	"artifacts" : 
 	[
 		{
-			"path" : "libclib.so"
+			"path" : "libclib.a"
 		}
 	],
 	"backtrace" : 1,
@@ -27,25 +28,25 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 60,
+				"line" : 123,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 95,
+				"line" : 161,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 84,
+				"line" : 147,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 66,
+				"line" : 132,
 				"parent" : 0
 			}
 		]
@@ -56,7 +57,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu2x -fPIC"
+					"fragment" : "-g -std=gnu2x"
 				},
 				{
 					"backtrace" : 3,
@@ -65,12 +66,6 @@
 				{
 					"backtrace" : 3,
 					"fragment" : "-march=native"
-				}
-			],
-			"defines" : 
-			[
-				{
-					"define" : "clib_shared_EXPORTS"
 				}
 			],
 			"includes" : 
@@ -95,15 +90,11 @@
 			]
 		}
 	],
-	"id" : "clib_shared::@6890427a1f51a3e7e1df",
+	"id" : "clib_static::@6890427a1f51a3e7e1df",
 	"install" : 
 	{
 		"destinations" : 
 		[
-			{
-				"backtrace" : 2,
-				"path" : "lib"
-			},
 			{
 				"backtrace" : 2,
 				"path" : "lib"
@@ -114,19 +105,8 @@
 			"path" : "/usr/local"
 		}
 	},
-	"link" : 
-	{
-		"commandFragments" : 
-		[
-			{
-				"fragment" : "",
-				"role" : "flags"
-			}
-		],
-		"language" : "C"
-	},
-	"name" : "clib_shared",
-	"nameOnDisk" : "libclib.so",
+	"name" : "clib_static",
+	"nameOnDisk" : "libclib.a",
 	"paths" : 
 	{
 		"build" : ".",
@@ -140,6 +120,20 @@
 			[
 				0
 			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8
+			]
 		}
 	],
 	"sources" : 
@@ -149,7 +143,47 @@
 			"compileGroupIndex" : 0,
 			"path" : "clib.c",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "clib.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "def.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/usr/include/unistd.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/usr/include/errno.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/usr/include/pwd.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/usr/include/string.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/usr/include/stdlib.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/usr/include/stdio.h",
+			"sourceGroupIndex" : 1
 		}
 	],
-	"type" : "SHARED_LIBRARY"
+	"type" : "STATIC_LIBRARY"
 }
