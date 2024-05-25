@@ -60,82 +60,102 @@ typedef struct UserInfo_t
 } UserInfo;
 
 /**
- * @brief Retrieves user information.
- *
- * This function retrieves the user information, including the username and the current working directory.
- *
- * @return A pointer to the UserInfo structure containing the user information.
- */
+
+    @brief Retrieves user information.
+
+    This function retrieves the user information, including the username and the current working directory.
+
+    @return A pointer to the UserInfo structure containing the user information.
+
+*/
 UserInfo* get_user_info(void);
 
 /**
- * @brief Changes the current working directory.
- *
- * This function changes the current working directory to the specified path.
- *
- * @param path The path to change the current working directory to.
- */
+
+    @brief Changes the current working directory.
+
+    This function changes the current working directory to the specified path.
+
+    @param path The path to change the current working directory to.
+
+*/
 void cd(const char* path);
 
 /**
- * @brief Creates a new directory.
- *
- * This function creates a new directory with the specified path.
- *
- * @param path The path of the directory to create.
- */
+
+    @brief Creates a new directory.
+
+    This function creates a new directory with the specified path.
+
+    @param path The path of the directory to create.
+
+*/
 void clib_mkdir(const char* path);
 
 /**
- * @brief Retrieves the current working directory.
- *
- * This function retrieves the current working directory and stores it in the specified buffer.
- *
- * @param cwd The buffer to store the current working directory in.
- * @param size The size of the buffer.
- */
+
+    @brief Retrieves the current working directory.
+
+    This function retrieves the current working directory and stores it in the specified buffer.
+
+    @param cwd The buffer to store the current working directory in.
+    @param size The size of the buffer.
+
+*/
 void get_cwd(char* cwd, size_t size);
 
 /**
- * @brief Retrieves the username.
- *
- * This function retrieves the username and stores it in the specified buffer.
- *
- * @param user The buffer to store the username in.
- * @param size The size of the buffer.
- */
+
+    @brief Retrieves the username.
+
+    This function retrieves the username and stores it in the specified buffer.
+
+    @param user The buffer to store the username in.
+    @param size The size of the buffer.
+
+*/
 void get_user(char* user, size_t size);
 
 /**
- * @brief Clears the contents of a buffer.
- *
- * This function clears the contents of the specified buffer by filling it with null characters.
- *
- * @param buffer The buffer to clear.
- * @param size The size of the buffer.
- */
+
+    @brief Clears the contents of a buffer.
+
+    This function clears the contents of the specified buffer by filling it with null characters.
+
+    @param buffer The buffer to clear.
+    @param size The size of the buffer.
+
+*/
 void clear_buffer(char* buffer, size_t size);
 
+
 /**
- * @brief Removes a directory and its contents.
- *
- * This function removes the directory specified by the given path, including all its contents.
- *
- * @param path The path of the directory to remove.
- */
-void rmdir_asm(const char* path);
+
+    @brief Removes a directory and its contents.
+
+    This function removes the directory specified by the given path, including all its contents.
+
+    @param path The path of the directory to remove.
+
+*/
+u8 clib_rmdir(const char* path);
 
 
 /**
- * @brief Checks if a directory exists.
- *
- * This function checks if the directory specified by the given path exists.
- *
- * @param path The path of the directory to check.
- * @return @param DIRECTORY_EXISTS if the directory exists, @param IS_NOT_A_DIRECTORY if it is not a directory,
- * or @param DOES_NOT_EXIST if it does not exist.
- */
+
+    @brief Checks if a directory exists.
+
+    This function checks if the directory specified by the given path exists.
+
+    @param path The path of the directory to check.
+
+    @returns @param DIRECTORY_EXISTS if @param path is a directory and exists,
+    @returns @param IS_NOT_A_DIRECTORY if @param path is not a directory,
+    @returns @param DOES_NOT_EXIST if @param path does not exist.
+
+*/
 u8 clib_dir_exists(const char* path);
+
 
 /**
 
@@ -152,5 +172,19 @@ u8 clib_dir_exists(const char* path);
 
 */
 u8 append_str(char* dest, const char* src, size_t dest_size);
+
+
+/**
+
+    @brief Allocates memory.
+
+    This function allocates memory of the specified size.
+
+    @param size The size of the memory to allocate.
+    @return A pointer to the allocated memory.
+
+*/
+void* allocate(size_t const size);
+
 
 #endif /* CLIB_H */

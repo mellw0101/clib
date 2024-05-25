@@ -1,4 +1,5 @@
 /usr/include/clib/clib.h
+/usr/include/clib/def.h
 /usr/include/clib/unistd.h
 /usr/include/clib/errno.h
 /usr/include/clib/pwd.h

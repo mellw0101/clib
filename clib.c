@@ -1,5 +1,6 @@
 #include "clib.h"
 
+#include "def.h"
 #include "errno.h"
 #include "pwd.h"
 #include "stdio.h"
@@ -266,8 +267,15 @@ void clear_buffer(char* const buffer, size_t const size)
 }
 
 
-void rmdir_asm(const char* const path)
+u8 clib_rmdir(const char* const path)
 {
+    if (path == NULL)
+    {
+        errno = EINVAL;
+        perror("clib_rmdir");
+        return NULL_FAILURE;
+    }
+
     long result;
     asm volatile("movq %1, %%rdi\n"  // Move the path argument to the first argument register (rdi)
                  "movl $84, %%eax\n" // Move the syscall number for rmdir to eax
@@ -281,7 +289,11 @@ void rmdir_asm(const char* const path)
     if (result < 0)
     {
         errno = -result;
+        perror("clib_rmdir");
+        return FAILURE;
     }
+
+    return SUCCESS;
 }
 
 
@@ -395,7 +407,7 @@ u8 append_str(char* dest, const char* src, size_t dest_size)
     return SUCCESS;
 }
 
-void* allocate(size_t size)
+void* allocate(size_t const size)
 {
     void* result;
     long  mmap_result;

@@ -47,6 +47,7 @@ set(CLIB_SOURCES
 
 set(CLIB_HEADERS
         clib.h
+        def.h
         /usr/include/unistd.h
         /usr/include/errno.h
         /usr/include/pwd.h
