@@ -53,6 +53,7 @@ set(CLIB_HEADERS
         /usr/include/pwd.h
         /usr/include/string.h
         /usr/include/stdlib.h
+        /usr/include/stdio.h
 )
 
 # Create the shared library

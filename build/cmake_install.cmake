@@ -51,6 +51,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/usr/include/pwd.h"
     "/usr/include/string.h"
     "/usr/include/stdlib.h"
+    "/usr/include/stdio.h"
     )
 endif()
 

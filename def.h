@@ -53,4 +53,18 @@ typedef unsigned short     u8;
         #undef NULL_FAILURE
         #define NULL_FAILURE 2
     #endif
+
+    // Custom attributes for GCC
+    #ifndef __THROW
+        #define __THROW
+    #endif
+
+    #ifndef __nonnull
+        #define __nonnull(params) __attribute__((nonnull params))
+    #endif
+
+    #ifndef __wur
+        #define __wur __attribute__((warn_unused_result))
+    #endif
+
 #endif //__DEF_H__

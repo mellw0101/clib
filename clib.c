@@ -7,7 +7,6 @@
 #include "stdlib.h"
 #include "string.h"
 #include "sys/stat.h"
-#include "unistd.h"
 
 void read_from_file(const char* filename)
 {
@@ -28,137 +27,126 @@ void read_from_file(const char* filename)
     fclose(file);
 }
 
+u8 clib_fputs(const char* restrict s, FILE* restrict stream)
+{
+    if (s == NULL || stream == NULL)
+    {
+        errno = EINVAL;
+        perror("fputs_asm");
+        return NULL_FAILURE;
+    }
 
-void write_to_file(const char* filename, const char* data)
+    size_t len = 0;
+    while (s[len] != '\0')
+    {
+        len++;
+    }
+
+    // Get the file descriptor from the FILE* stream
+    int fd = fileno(stream);
+    if (fd < 0)
+    {
+        perror("fileno");
+        return FAILURE;
+    }
+
+    ssize_t result;
+    asm volatile("movq $1, %%rax\n" // syscall number for write
+                 "movq %1, %%rdi\n" // file descriptor
+                 "movq %2, %%rsi\n" // buffer (pointer to string)
+                 "movq %3, %%rdx\n" // count (length of string)
+                 "syscall\n"        // invoke syscall
+                 "movq %%rax, %0\n" // store result in variable
+                 : "=r"(result)
+                 : "r"((long)fd), "r"(s), "r"((long)len)
+                 : "%rax", "%rdi", "%rsi", "%rdx");
+
+    if (result < 0)
+    {
+        errno = -result;
+        perror("fputs_asm");
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
+
+u8 write_to_file(const char* filename, const char* data)
 {
     FILE* file = fopen(filename, "w");
     if (file == NULL)
     {
+        errno = EINVAL;
         perror("fopen");
-        exit(EXIT_FAILURE);
+        return NULL_FAILURE;
     }
 
-    fputs(data, file);
-
+    u8 result = clib_fputs(data, file);
     fclose(file);
+
+    if (result == FAILURE)
+    {
+        perror("write_to_file");
+        return FAILURE;
+    }
+
+    return SUCCESS;
 }
 
 
 size_t slen(const char* s)
 {
+    if (s == NULL)
+    {
+        errno = EINVAL;
+        perror("slen");
+        return (size_t)-1;
+    }
+
     size_t i = 0;
     for (; s[i]; ++i)
         ;
+
     return i;
 }
 
 
-void strcp(char* dest, const char* src)
+u8 strcp(char* dest, const char* src)
 {
+    if (dest == NULL || src == NULL)
+    {
+        errno = EINVAL;
+        perror("strcp");
+        return NULL_FAILURE;
+    }
+
     size_t i = 0;
     for (; src[i]; ++i)
         dest[i] = src[i];
+
     dest[i] = '\0';
+
+    if (i != slen(src))
+    {
+        errno = ENOMEM;
+        perror("strcp");
+        return FAILURE;
+    }
+
+    return SUCCESS;
 }
 
 
-UserInfo* get_user_info(void)
+u8 cd(const char* const path)
 {
-    UserInfo* info = malloc(sizeof(UserInfo));
-    if (info == NULL)
+    if (path == NULL)
     {
-        // Error handling if malloc fails
-        perror("malloc");
-        exit(EXIT_FAILURE);
+        errno = EINVAL;
+        perror("cd");
+        return NULL_FAILURE;
     }
 
-    memset(info, 0, sizeof(UserInfo));
-
-    // Get the current user
-    const char* username = getlogin();
-    if (username != NULL)
-    {
-        strncpy(info->user, username, slen(username) + 1);
-    }
-    // Get the current working directory
-    if (getcwd(info->cwd, sizeof(info->cwd)) == NULL)
-    {
-        // Error handling if getcwd fails
-        perror("getcwd");
-        free(info);
-        exit(EXIT_FAILURE);
-    }
-
-    return info;
-}
-
-// Custom attributes for GCC
-#ifndef __THROW
-    #define __THROW
-#endif
-
-#ifndef __nonnull
-    #define __nonnull(params) __attribute__((nonnull params))
-#endif
-
-#ifndef __wur
-    #define __wur __attribute__((warn_unused_result))
-#endif
-
-// Custom function declaration with attributes
-extern int my_chdir(const char* path) __THROW __nonnull((1)) __wur;
-
-// Custom function implementation
-int my_chdir(const char* path)
-{
-    // Check if the path is non-null (although __nonnull should ensure this)
-    if (!path)
-    {
-        fprintf(stderr, "Path cannot be null.\n");
-        return -1;
-    }
-
-    // Change directory and return the result
-    int result = chdir(path);
-    if (result != 0)
-    {
-        perror("chdir");
-        return -1;
-    }
-
-    return 0;
-}
-
-
-void change_directory(const char* const path, const char* const user)
-{
-    if (!user)
-    {
-        printf("User not specified\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if (chdir(path) != 0)
-    {
-        // Prompt for sudo password and execute chown command
-        printf("Enter sudo password: ");
-        char password[256];
-        fgets(password, sizeof(password), stdin);
-        password[strcspn(password, "\n")] = '\0'; // Remove trailing newline character
-
-        char command[256];
-        snprintf(command, sizeof(command), "echo %s | sudo -S chown -R %s:%s %s", password, user, "wheel", path);
-        if (system(command) != 0)
-        {
-            perror("system");
-            exit(EXIT_FAILURE);
-        }
-    }
-}
-
-
-void cd(const char* const path)
-{
     long result;
     asm volatile("movq %1, %%rdi\n"
                  "movl $80, %%eax\n"
@@ -172,14 +160,23 @@ void cd(const char* const path)
     if (result < 0)
     {
         errno = -result;
-        perror("change_cwd_asm");
-        exit(EXIT_FAILURE);
+        perror("cd");
+        return FAILURE;
     }
+
+    return SUCCESS;
 }
 
 
-void clib_mkdir(const char* const path)
+u8 clib_mkdir(const char* const path)
 {
+    if (path == NULL)
+    {
+        errno = EINVAL;
+        perror("clib_mkdir");
+        return NULL_FAILURE;
+    }
+
     long result;
     asm volatile("movq %1, %%rdi\n"
                  "movl $83, %%eax\n"
@@ -193,8 +190,11 @@ void clib_mkdir(const char* const path)
     if (result < 0)
     {
         errno = -result;
-        perror("make_directory");
+        perror("clib_mkdir");
+        return FAILURE;
     }
+
+    return SUCCESS;
 }
 
 
@@ -266,6 +266,35 @@ void clear_buffer(char* const buffer, size_t const size)
     }
 }
 
+u8 clib_rm(const char* const path)
+{
+    if (path == NULL)
+    {
+        errno = EINVAL;
+        perror("clib_unlink");
+        return NULL_FAILURE;
+    }
+
+    long result;
+    asm volatile("movq %1, %%rdi\n"  // Move the path argument to the first argument register (rdi)
+                 "movl $87, %%eax\n" // Move the syscall number for unlink (87) to eax
+                 "syscall\n"         // Invoke the syscall
+                 "movq %%rax, %0\n"  // Move the syscall result to the result variable
+                 : "=r"(result)
+                 : "r"(path)
+                 : "%rdi", "%rax");
+
+    // Set errno and handle errors if the system call failed
+    if (result < 0)
+    {
+        errno = -result;
+        perror("clib_unlink");
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
 
 u8 clib_rmdir(const char* const path)
 {
@@ -330,6 +359,7 @@ u8 clib_dir_exists(const char* const path)
         return DOES_NOT_EXIST; // Directory does not exist
     }
 }
+
 
 u8 append_str(char* dest, const char* src, size_t dest_size)
 {
@@ -406,6 +436,7 @@ u8 append_str(char* dest, const char* src, size_t dest_size)
 
     return SUCCESS;
 }
+
 
 void* allocate(size_t const size)
 {

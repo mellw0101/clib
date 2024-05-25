@@ -1,74 +1,72 @@
 #ifndef CLIB_H
 #define CLIB_H
-/**                                                                                                     \
- * @file clib.h                                                                                         \
- * @brief Header file for the clib library.                                                             \
- *                                                                                                      \
- * This header file contains declarations for functions and types provided by the clib library.         \
- * The clib library provides various utility functions for file I/O, string manipulation, directory     \
- * operations, and more.                                                                                \
- */
-
-#include "def.h"
-
-/**
- * @brief Reads data from a file and prints it to the console.
- *
- * This function reads the contents of the file specified by the given filename and prints it to the console.
- *
- * @param filename The name of the file to read from.
- */
-void read_from_file(const char* filename);
-
-/**
- * @brief Writes data to a file.
- *
- * This function writes the given data to the file specified by the given filename.
- *
- * @param filename The name of the file to write to.
- * @param data The data to write to the file.
- */
-void write_to_file(const char* filename, const char* data);
-
-/**
- * @brief Copies a string from source to destination.
- *
- * This function copies the null-terminated string from the source to the destination.
- *
- * @param dest The destination buffer to copy the string to.
- * @param src The source string to copy from.
- */
-void strcp(char* dest, const char* src);
-
-/**
- * @brief Calculates the length of a string.
- *
- * This function calculates the length of the null-terminated string.
- *
- * @param s The string to calculate the length of.
- * @return The length of the string.
- */
-size_t slen(const char* s);
-
-/**
- * @brief Structure to hold user information.
- */
-typedef struct UserInfo_t
-{
-    char user[256]; ///< The username.
-    char cwd[256];  ///< The current working directory.
-} UserInfo;
-
 /**
 
-    @brief Retrieves user information.
+    @file clib.h
+    @brief Header file for the clib library.
 
-    This function retrieves the user information, including the username and the current working directory.
-
-    @return A pointer to the UserInfo structure containing the user information.
+    This header file contains declarations for functions and types provided by the clib library.
+    The clib library provides various utility functions for file I/O, string manipulation, directory
+    operations, and more.
 
 */
-UserInfo* get_user_info(void);
+
+#include "def.h"
+#include "stdio.h"
+
+/**
+
+    @brief Reads data from a file and prints it to the console.
+
+    This function reads the contents of the file specified by the given filename and prints it to the console.
+
+    @param filename The name of the file to read from.
+
+*/
+void read_from_file(const char* filename);
+
+
+u8 clib_fputs(const char* restrict s, FILE* restrict stream);
+
+
+/**
+
+    @brief Writes data to a file.
+
+    This function writes the given data to the file specified by the given filename.
+
+    @param filename The name of the file to write to.
+    @param data The data to write to the file.
+
+*/
+u8 write_to_file(const char* filename, const char* data);
+
+
+/**
+
+    @brief Copies a string from source to destination.
+
+    This function copies the null-terminated string from the source to the destination.
+
+    @param dest The destination buffer to copy the string to.
+    @param src The source string to copy from.
+
+*/
+u8 strcp(char* dest, const char* src);
+
+
+/**
+
+    @brief Calculates the length of a string.
+
+    This function calculates the length of the null-terminated string.
+
+    @param s The string to calculate the length of.
+    @return The length of the string.
+
+*/
+size_t slen(const char* s);
+
 
 /**
 
@@ -79,7 +77,8 @@ UserInfo* get_user_info(void);
     @param path The path to change the current working directory to.
 
 */
-void cd(const char* path);
+u8 cd(const char* path);
+
 
 /**
 
@@ -90,7 +89,8 @@ void cd(const char* path);
     @param path The path of the directory to create.
 
 */
-void clib_mkdir(const char* path);
+u8 clib_mkdir(const char* path);
+
 
 /**
 
@@ -104,6 +104,7 @@ void clib_mkdir(const char* path);
 */
 void get_cwd(char* cwd, size_t size);
 
+
 /**
 
     @brief Retrieves the username.
@@ -116,6 +117,7 @@ void get_cwd(char* cwd, size_t size);
 */
 void get_user(char* user, size_t size);
 
+
 /**
 
     @brief Clears the contents of a buffer.
@@ -127,6 +129,9 @@ void get_user(char* user, size_t size);
 
 */
 void clear_buffer(char* buffer, size_t size);
+
+
+u8 clib_rm(const char* path);
 
 
 /**
