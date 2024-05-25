@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/mellw/CLionProjects/clib/build",
+  "command": "/usr/bin/clang -Dclib_shared_EXPORTS -I/home/mellw/CLionProjects/clib -g -std=gnu2x -fPIC -O3 -march=native -o CMakeFiles/clib_shared.dir/clib.c.o -c /home/mellw/CLionProjects/clib/clib.c",
+  "file": "/home/mellw/CLionProjects/clib/clib.c",
+  "output": "CMakeFiles/clib_shared.dir/clib.c.o"
+},
+{
+  "directory": "/home/mellw/CLionProjects/clib/build",
+  "command": "/usr/bin/clang -I/home/mellw/CLionProjects/clib -g -std=gnu2x -O3 -march=native -o CMakeFiles/clib_static.dir/clib.c.o -c /home/mellw/CLionProjects/clib/clib.c",
+  "file": "/home/mellw/CLionProjects/clib/clib.c",
+  "output": "CMakeFiles/clib_static.dir/clib.c.o"
+}
+]

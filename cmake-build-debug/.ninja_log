@@ -1,0 +1,5 @@
+# ninja log v5
+0	34	1716594102772435653	CMakeFiles/clib.dir/library.c.o	b8385adfac7f766
+0	17	1716594240072429545	build.ninja	c78853d33f062a6d
+1	18	1716594240072429545	build.ninja	c78853d33f062a6d
+1	29	1716594244715762673	CMakeFiles/clib_shared.dir/library.c.o	1f8f5f0d8619e519
