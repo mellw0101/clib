@@ -1,23 +1,15 @@
 #ifndef CLIB_H
 #define CLIB_H
-
-/**
- * @file clib.h
- * @brief Header file for the clib library.
- *
- * This header file contains declarations for functions and types provided by the clib library.
- * The clib library provides various utility functions for file I/O, string manipulation, directory operations, and
- * more.
+/**                                                                                                     \
+ * @file clib.h                                                                                         \
+ * @brief Header file for the clib library.                                                             \
+ *                                                                                                      \
+ * This header file contains declarations for functions and types provided by the clib library.         \
+ * The clib library provides various utility functions for file I/O, string manipulation, directory     \
+ * operations, and more.                                                                                \
  */
 
-typedef unsigned long size_t;
-typedef unsigned int  i32;
-
-
-typedef unsigned long long u64;
-typedef unsigned int       u32;
-typedef unsigned int       u16;
-typedef unsigned short     u8;
+#include "def.h"
 
 /**
  * @brief Reads data from a file and prints it to the console.
@@ -133,26 +125,6 @@ void clear_buffer(char* buffer, size_t size);
  */
 void rmdir_asm(const char* path);
 
-#ifndef DIRECTORY_EXISTS
-    #define DIRECTORY_EXISTS 1
-#else
-    #undef DIRECTORY_EXISTS
-    #define DIRECTORY_EXISTS 1
-#endif
-
-#ifndef IS_NOT_A_DIRECTORY
-    #define IS_NOT_A_DIRECTORY 0
-#else
-    #undef IS_NOT_A_DIRECTORY
-    #define IS_NOT_A_DIRECTORY 0
-#endif
-
-#ifndef DOES_NOT_EXIST
-    #define DOES_NOT_EXIST 2
-#else
-    #undef DOES_NOT_EXIST
-    #define DOES_NOT_EXIST 2
-#endif
 
 /**
  * @brief Checks if a directory exists.
@@ -165,27 +137,20 @@ void rmdir_asm(const char* path);
  */
 u8 clib_dir_exists(const char* path);
 
-#ifndef SUCCESS
-    #define SUCCESS 0
-#else
-    #undef SUCCESS
-    #define SUCCESS 0
-#endif
+/**
 
-#ifndef FAILURE
-    #define FAILURE 1
-#else
-    #undef FAILURE
-    #define FAILURE 1
-#endif
+    @brief Appends a string to another string.
 
-#ifndef NULL_FAILURE
-    #define NULL_FAILURE 2
-#else
-    #undef NULL_FAILURE
-    #define NULL_FAILURE 2
-#endif
+    This function appends the source string to the destination string.
 
+    @param dest The destination string to append to.
+    @param src The source string to append.
+    @param dest_size The size of the destination buffer.
+    @returns SUCCESS on successfull append,
+    @returns FAILUER on failure to append,
+    @returns NULL_FAILUER on ether @param dest = NULL or @param src = NULL.
+
+*/
 u8 append_str(char* dest, const char* src, size_t dest_size);
 
 #endif /* CLIB_H */
