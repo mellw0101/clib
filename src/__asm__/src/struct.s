@@ -1,4 +1,4 @@
-section .data
+section .rodata
 global const_data_struct
 
 ; Define a constant structure
@@ -10,14 +10,14 @@ section .text
 global get_struct_field1
 global get_struct_field2
 
-
-; int get_field1()
-get_struct_field1:      ; Function to get field1
+; Function to get field1
+; int get_struct_field1()
+get_struct_field1:
     mov eax, [const_data_struct]
     ret
 
-
-; int get_field2()
-get_struct_field2:      ; Function to get field2
+; Function to get field2
+; int get_struct_field2()
+get_struct_field2:
     mov eax, [const_data_struct + 4]
     ret

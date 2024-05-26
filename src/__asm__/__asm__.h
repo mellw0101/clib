@@ -17,14 +17,4 @@
                 errno = -result;                                                                                               \
             }
     #endif // __asm__call__function__
-
-
-// Inline assembly function to add two integers
-int __asm__add(int a, int b);
-
-
-// Wrapper functions in C
-int my_get_field1();
-int my_get_field2();
-
 #endif // ____ASM____H__
