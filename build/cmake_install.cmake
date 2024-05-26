@@ -43,16 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clib" TYPE FILE FILES
-    "/home/mellw/CLionProjects/clib/clib.h"
-    "/home/mellw/CLionProjects/clib/def.h"
-    "/usr/include/unistd.h"
-    "/usr/include/errno.h"
-    "/usr/include/pwd.h"
-    "/usr/include/string.h"
-    "/usr/include/stdlib.h"
-    "/usr/include/stdio.h"
-    )
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clib" TYPE FILE FILES "/home/mellw/CLionProjects/clib/clib.h")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)

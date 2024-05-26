@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: all
+# Project: clib
 # Configurations: Debug
 # =============================================================================
 
@@ -49,9 +49,9 @@ cmake_ninja_workdir = /home/mellw/CLionProjects/clib/cmake-build-debug/
 
 build cmake_object_order_depends_target_clib_shared: phony || CMakeFiles/clib_shared.dir
 
-build CMakeFiles/clib_shared.dir/library.c.o: C_COMPILER__clib_shared_unscanned_Debug /home/mellw/CLionProjects/clib/library.c || cmake_object_order_depends_target_clib_shared
+build CMakeFiles/clib_shared.dir/clib.c.o: C_COMPILER__clib_shared_unscanned_Debug /home/mellw/CLionProjects/clib/clib.c || cmake_object_order_depends_target_clib_shared
   DEFINES = -Dclib_shared_EXPORTS
-  DEP_FILE = CMakeFiles/clib_shared.dir/library.c.o.d
+  DEP_FILE = CMakeFiles/clib_shared.dir/clib.c.o.d
   FLAGS = -g -std=gnu2x -fPIC -fdiagnostics-color=always -O3 -march=native
   INCLUDES = -I/home/mellw/CLionProjects/clib
   OBJECT_DIR = CMakeFiles/clib_shared.dir
@@ -63,18 +63,49 @@ build CMakeFiles/clib_shared.dir/library.c.o: C_COMPILER__clib_shared_unscanned_
 
 
 #############################################
-# Link the shared library libClib.so
+# Link the shared library libclib.so
 
-build libClib.so: C_SHARED_LIBRARY_LINKER__clib_shared_Debug CMakeFiles/clib_shared.dir/library.c.o
+build libclib.so: C_SHARED_LIBRARY_LINKER__clib_shared_Debug CMakeFiles/clib_shared.dir/clib.c.o
   LANGUAGE_COMPILE_FLAGS = -g
-  LINK_LIBRARIES = -lclib.h
   OBJECT_DIR = CMakeFiles/clib_shared.dir
   POST_BUILD = :
   PRE_LINK = :
-  SONAME = libClib.so
+  SONAME = libclib.so
   SONAME_FLAG = -Wl,-soname,
-  TARGET_FILE = libClib.so
-  TARGET_PDB = Clib.so.dbg
+  TARGET_FILE = libclib.so
+  TARGET_PDB = clib.so.dbg
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target clib_static
+
+
+#############################################
+# Order-only phony target for clib_static
+
+build cmake_object_order_depends_target_clib_static: phony || CMakeFiles/clib_static.dir
+
+build CMakeFiles/clib_static.dir/clib.c.o: C_COMPILER__clib_static_unscanned_Debug /home/mellw/CLionProjects/clib/clib.c || cmake_object_order_depends_target_clib_static
+  DEP_FILE = CMakeFiles/clib_static.dir/clib.c.o.d
+  FLAGS = -g -std=gnu2x -fdiagnostics-color=always -O3 -march=native
+  INCLUDES = -I/home/mellw/CLionProjects/clib
+  OBJECT_DIR = CMakeFiles/clib_static.dir
+  OBJECT_FILE_DIR = CMakeFiles/clib_static.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target clib_static
+
+
+#############################################
+# Link the static library libclib.a
+
+build libclib.a: C_STATIC_LIBRARY_LINKER__clib_static_Debug CMakeFiles/clib_static.dir/clib.c.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles/clib_static.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = libclib.a
+  TARGET_PDB = clib.a.dbg
 
 
 #############################################
@@ -144,7 +175,9 @@ build install/strip: phony CMakeFiles/install/strip.util
 # =============================================================================
 # Target aliases.
 
-build clib_shared: phony libClib.so
+build clib_shared: phony libclib.so
+
+build clib_static: phony libclib.a
 
 # =============================================================================
 # Folder targets.
@@ -154,7 +187,7 @@ build clib_shared: phony libClib.so
 #############################################
 # Folder: /home/mellw/CLionProjects/clib/cmake-build-debug
 
-build all: phony libClib.so
+build all: phony libclib.so libclib.a
 
 # =============================================================================
 # Built-in targets
@@ -163,14 +196,14 @@ build all: phony libClib.so
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/mellw/CLionProjects/clib/CMakeLists.txt /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/mellw/CLionProjects/clib/CMakeLists.txt /home/mellw/CLionProjects/clib/cmake/clibConfig.cmake.in /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakePackageConfigHelpers.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/mellw/CLionProjects/clib/CMakeLists.txt /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake: phony
+build /home/mellw/CLionProjects/clib/CMakeLists.txt /home/mellw/CLionProjects/clib/cmake/clibConfig.cmake.in /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakePackageConfigHelpers.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/Linux.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /opt/clion/bin/cmake/linux/x64/share/cmake-3.28/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake: phony
 
 
 #############################################

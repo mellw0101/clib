@@ -1,12 +1,21 @@
 #include "clib.h"
 
+#include <sys/stat.h>
+#include "def.h"
+
+
+#include <assert.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+#include <threads.h>
+#include <unistd.h>
 #include "def.h"
 #include "errno.h"
 #include "pwd.h"
 #include "stdio.h"
 #include "string.h"
-#include "struct_FILE.h"
-#include "sys/stat.h"
+
 
 void read_from_file(const char* filename)
 {
@@ -14,7 +23,7 @@ void read_from_file(const char* filename)
     if (file == NULL)
     {
         perror("fopen");
-        exit(EXIT_FAILURE);
+        clib_exit(EXIT_FAILURE);
     }
 
     char buffer[256];
@@ -137,6 +146,25 @@ u8 strcp(char* dest, const char* src)
     return SUCCESS;
 }
 
+size_t find(const char* const s, const char c)
+{
+    if (s == NULL || c == '\0')
+    {
+        errno = EINVAL;
+        perror("find");
+        return (size_t)-1;
+    }
+
+
+    for (size_t i = 0; s[i]; ++i)
+    {
+        if (s[i] == c)
+            return i;
+    }
+
+    return (size_t)-1;
+}
+
 
 u8 cd(const char* const path)
 {
@@ -145,6 +173,51 @@ u8 cd(const char* const path)
         errno = EINVAL;
         perror("cd");
         return NULL_FAILURE;
+    }
+
+    if (slen(path) == 0)
+    {
+        errno = EINVAL;
+        perror("cd");
+        return FAILURE;
+    }
+
+    size_t pos = find(path, '/');
+    if (pos == (size_t)-1)
+    {
+        u8 append_result = 0;
+
+        char full_path[256];
+        get_cwd(full_path, 256);
+        append_result = append_str(full_path, (const char* const)"/", 256);
+        if (append_result == FAILURE || append_result == NULL_FAILURE)
+        {
+            perror("cd");
+            return FAILURE;
+        }
+
+        const char* const cwd = full_path;
+
+
+        assert(slen(full_path) < 256);
+
+        long result;
+        asm volatile("movq %1, %%rdi\n"
+                     "movl $80, %%eax\n"
+                     "syscall\n"
+                     "movq %%rax, %0\n"
+                     : "=r"(result)
+                     : "r"(full_path)
+                     : "%rdi", "%rax");
+
+        if (result < 0)
+        {
+            errno = -result;
+            perror("cd");
+            return FAILURE;
+        }
+
+        return SUCCESS;
     }
 
     long result;
@@ -177,7 +250,7 @@ u8 clib_mkdir(const char* const path)
         return NULL_FAILURE;
     }
 
-    long result;
+    long result = 0;
     asm volatile("movq %1, %%rdi\n"
                  "movl $83, %%eax\n"
                  "syscall\n"
@@ -198,32 +271,49 @@ u8 clib_mkdir(const char* const path)
 }
 
 
-void get_cwd(char* cwd, size_t const size)
+u8 get_cwd(void* buf, size_t const size)
 {
+    if (buf == NULL)
+    {
+        errno = EINVAL;
+        perror("get_cwd");
+        return NULL_FAILURE;
+    }
+
     long result;
-    asm volatile("movq %1, %%rdi\n"
-                 "movq %2, %%rsi\n"
-                 "movl $79, %%eax\n"
-                 "syscall\n"
-                 "movq %%rax, %0\n"
-                 : "=r"(result)
-                 : "r"(cwd), "r"(size)
-                 : "%rdi", "%rsi", "%rax");
+    __asm__ volatile("movq %1, %%rdi\n"
+                     "movq %2, %%rsi\n"
+                     "movl $79, %%eax\n"
+                     "syscall\n"
+                     "movq %%rax, %0\n"
+                     : "=r"(result)
+                     : "r"((char*)buf), "r"(size)
+                     : "%rdi", "%rsi", "%rax");
 
     // Set errno and handle errors if the system call failed
     if (result < 0)
     {
         errno = -result;
         perror("get_cwd_asm");
-        cwd = NULL;
+        buf = NULL;
+        return FAILURE;
     }
+
+    return SUCCESS;
 }
 
 
-void get_user(char* user, size_t const size)
+u8 get_user(void* __buf, size_t const __size)
 {
-    uid_t uid;
-    long  result;
+    if (__buf == NULL)
+    {
+        errno = EINVAL;
+        perror("get_user");
+        return NULL_FAILURE;
+    }
+
+    uid_t uid    = 0;
+    long  result = 0;
 
     // Retrieve the user ID using inline assembly for getuid syscall
     asm volatile("movl $102, %%eax\n" // Syscall number for getuid (102) into EAX
@@ -237,32 +327,34 @@ void get_user(char* user, size_t const size)
     if (uid < 0)
     {
         perror("get_user (getuid)");
-        user = NULL;
-        return;
+        __buf = NULL;
+        return FAILURE;
     }
 
     struct passwd* pwd = getpwuid(uid);
     if (pwd == NULL)
     {
         perror("get_user (getpwuid)");
-        user = NULL;
-        return;
+        __buf = NULL;
+        return FAILURE;
     }
 
-    if (snprintf(user, size, "%s", pwd->pw_name) >= size)
+    if (snprintf(__buf, __size, "%s", pwd->pw_name) >= __size)
     {
         fprintf(stderr, "get_user: buffer too small\n");
-        user = NULL;
-        return;
+        __buf = NULL;
+        return FAILURE;
     }
+
+    return SUCCESS;
 }
 
 
-void clear_buffer(char* const buffer, size_t const size)
+void clear_buffer(const void* const buf, size_t const size)
 {
     for (size_t i = 0; i < size; ++i)
     {
-        ((char*)buffer)[i] = '\0';
+        ((char* const)buf)[i] = '\0';
     }
 }
 
@@ -271,7 +363,7 @@ u8 clib_rm(const char* const path)
     if (path == NULL)
     {
         errno = EINVAL;
-        perror("clib_unlink");
+        __asm__call(perror, "clib_rm");
         return NULL_FAILURE;
     }
 
@@ -288,7 +380,7 @@ u8 clib_rm(const char* const path)
     if (result < 0)
     {
         errno = -result;
-        perror("clib_unlink");
+        perror("clib_rm");
         return FAILURE;
     }
 
@@ -324,6 +416,9 @@ u8 clib_rmdir(const char* const path)
 
     return SUCCESS;
 }
+
+#include <sys/stat.h>
+#include <sys/types.h>
 
 
 u8 clib_dir_exists(const char* const path)
@@ -515,7 +610,7 @@ void assert_statement(const char* condition, const char* file, int line)
     abort();
 }
 
-ssize_t asm_read(int fd, void* buf, size_t count)
+ssize_t clib_read(int fd, const void* buf, size_t count)
 {
     ssize_t result;
     asm volatile("movq $0, %%rax\n" // syscall number for read (0)
@@ -531,7 +626,7 @@ ssize_t asm_read(int fd, void* buf, size_t count)
     return result;
 }
 
-void exit(int status)
+void clib_exit(int status)
 {
     asm volatile("mov $60, %%rax\n" // syscall number for exit
                  "mov %0, %%rdi\n"  // exit status
@@ -541,6 +636,29 @@ void exit(int status)
                  : "%rax", "%rdi");
 
     __builtin_unreachable(); // Ensure the compiler knows this code is unreachable
+}
+
+
+int clib_dup2(int oldfd, int newfd)
+{
+    int result;
+
+    // Inline assembly to call the dup2 system call
+    __asm__ volatile("syscall"
+                     : "=a"(result) // Output operand list
+                     : "a"(33),     // Input operands list (syscall number for dup2 is 33 on x86_64)
+                       "D"(oldfd), "S"(newfd)
+                     : "rcx", "r11", "memory" // Clobbered registers
+    );
+
+    // Set errno if the syscall returns an error
+    if (result < 0)
+    {
+        errno  = -result;
+        result = DUP2_FAILURE;
+    }
+
+    return result;
 }
 
 void abort(void)
@@ -556,42 +674,341 @@ void abort(void)
     __builtin_unreachable(); // Indicate to the compiler that this point is never reached
 }
 
-// int close(int fd)
-// {
-//     long result;
+pid_t clib_waitpid(pid_t pid, int* status, int options)
+{
+    pid_t result;
 
-//     asm volatile("mov $3, %%rax\n"
-//                  "mov %1, %%rdi\n"
-//                  "syscall\n"
-//                  "mov %%rax, %0\n"
-//                  : "=r"(result)
-//                  : "r"(fd)
-//                  : "%rax", "%rdi");
+    __asm__ volatile("movl %2, %%ebx\n"
+                     "movl %4, %%edx\n"
+                     "movl $7, %%eax\n"
+                     "int $0x80\n"
+                     "movl %%eax, %0\n"
+                     : "=r"(result)
+                     : "0"(result), "r"(pid), "r"(status), "r"(options)
+                     : "%eax", "%ebx", "%ecx", "%edx");
 
-//     if (result < 0)
-//     {
-//         errno = -result;
-//         return FAILURE;
-//     }
+    if (result == -1)
+    {
+        errno  = -result;
+        result = -1;
+    }
 
-//     return SUCCESS;
-// }
+    return result;
+}
 
-// Define the fileno_asm function
-// int fileno_asm(FILE* file)
-// {
-//     if (file == NULL)
-//     {
-//         errno = EINVAL;
-//         perror("fileno_asm");
-//         return -1;
-//     }
+void launch_binary(const char* const path, char* const* argv, char* const* envp)
+{
+    __asm__ volatile("mov %0, %%rdi\n"  // path
+                     "mov %1, %%rsi\n"  // argv
+                     "mov %2, %%rdx\n"  // envp
+                     "mov $59, %%rax\n" // syscall number for execve
+                     "syscall\n"
+                     : // No output operands (no return value) __builtin_unreachable();
+                     : "r"(path), "r"(argv), "r"(envp)
+                     : "%rdi", "%rsi", "%rdx", "%rax");
 
-//     int fd;
-//     asm volatile("movq (%1), %0\n" // Move the value at the address of file (the file descriptor) into fd
-//                  : "=r"(fd)        // Output operand
-//                  : "r"(file)       // Input operand
-//     );
+    // Ensure the compiler knows this code is unreachable
+    __builtin_unreachable();
+}
 
-//     return fd;
-// }
+
+int clib_free(void* ptr, size_t const size)
+{
+    if (ptr == NULL)
+    {
+        errno = EINVAL;
+        perror("clib_free: (ptr == NULL)");
+        return NULL_FAILURE;
+    }
+
+    long result = (long)-1;
+    __asm__ volatile("movq %1, %%rdi\n"  // Set first argument to ptr
+                     "movq %2, %%rsi\n"  // Set second argument to size
+                     "movl $11, %%eax\n" // Set syscall number for munmap (11)
+                     "syscall\n"         // Make syscall
+                     "movq %%rax, %0\n"  // Store return value in result
+                     : "=r"(result)
+                     : "r"(ptr), "r"(size)
+                     : "%rdi", "%rsi", "%rax");
+
+    if (result < 0)
+    {
+        errno = -result;
+        perror("munmap");
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
+size_t get_std_str_len(const void* s)
+{
+    if ((char*)s == NULL)
+        return (size_t)-1;
+
+    size_t i = (size_t)0;
+    for (; &s[i]; ++i)
+        ;
+
+    return (size_t)i;
+}
+
+
+u8 fork_and_launch_binary(const char* const path, char* const* const argv, char* const* const envp)
+{
+    pid_t pid = fork();
+    if (pid < 0)
+    {
+        perror("fork");
+        return FAILURE;
+    }
+
+    if (pid == 0)
+    {
+        launch_binary(path, argv, envp);
+    }
+    else
+    {
+        clib_waitpid(pid, NULL, 0);
+    }
+
+    return SUCCESS;
+}
+
+
+u8 printf_ls_cwd(void)
+{
+    char* cwd = malloc(std_str_len);
+    get_cwd(cwd, std_str_len);
+    printf("cwd = %s\n", cwd);
+
+    char* const argv[3] = {"/usr/bin/ls", cwd, NULL};
+
+    u8 result = fork_and_launch_binary("/usr/bin/ls", argv, NULL);
+
+    return SUCCESS;
+}
+
+
+void* clib_memcpy(void* dest, const void* src, size_t n)
+{
+    // Cast input pointers to char* for byte-wise copying
+    char*       d = (char*)dest;
+    const char* s = (const char*)src;
+
+    __asm__ volatile("rep movsb"                 // Repeat move string byte
+                     : "+D"(d), "+S"(s), "+c"(n) // Output and input operands
+                     :                           // No additional input-only operands
+                     : "memory"                  // Clobbered registers
+    );
+
+    return dest;
+}
+
+#define META_SIZE sizeof(struct block_meta)
+
+
+void* global_base = NULL;
+
+
+// Find a free block or extend the heap if necessary
+struct block_meta* find_free_block(struct block_meta** last, size_t size)
+{
+    struct block_meta* current = global_base;
+    while (current && !(current->free && current->size >= size))
+    {
+        *last   = current;
+        current = current->next;
+    }
+    return current;
+}
+
+
+// Request more memory from the system
+struct block_meta* request_space(struct block_meta* last, size_t size)
+{
+    struct block_meta* block;
+    block = sbrk(size + META_SIZE);
+    if (block == (void*)-1) // sbrk failed
+    {
+        return NULL;
+    }
+
+    if (last) // Not the first block
+    {
+        last->next = block;
+    }
+
+    block->size = size;
+    block->next = NULL;
+    block->free = 0;
+    return block;
+}
+
+
+// Align size to multiple of 8 for better memory alignment
+size_t align_size(size_t size)
+{
+    return (size + 7) & ~7;
+}
+
+
+// Allocate memory
+void* malloc(size_t size)
+{
+    struct block_meta* block;
+
+    if (size <= 0)
+    {
+        return NULL;
+    }
+
+    size = align_size(size);
+
+    if (!global_base) // First call
+    {
+        block = request_space(NULL, size);
+        if (!block)
+        {
+            return NULL;
+        }
+        global_base = block;
+    }
+    else
+    {
+        struct block_meta* last = global_base;
+        block                   = find_free_block(&last, size);
+        if (!block) // Failed to find a free block
+        {
+            block = request_space(last, size);
+            if (!block)
+            {
+                return NULL;
+            }
+        }
+        else // Found a free block
+        {
+            block->free = 0;
+        }
+    }
+
+    return (block + 1);
+}
+
+
+// Free memory
+void free(void* ptr)
+{
+    if (!ptr)
+    {
+        return;
+    }
+
+    struct block_meta* block_ptr = (struct block_meta*)ptr - 1;
+    block_ptr->free              = 1;
+
+    // Merge adjacent free blocks
+    struct block_meta* current = global_base;
+    while (current)
+    {
+        if (current->free && current->next && current->next->free)
+        {
+            current->size += current->next->size + META_SIZE;
+            current->next = current->next->next;
+        }
+        current = current->next;
+    }
+}
+
+
+// Reallocate memory
+void* realloc(void* ptr, size_t size)
+{
+    if (!ptr)
+    {
+        return malloc(size);
+    }
+
+    struct block_meta* block_ptr = (struct block_meta*)ptr - 1;
+    if (block_ptr->size >= size)
+    {
+        return ptr;
+    }
+
+    void* new_ptr = malloc(size);
+    if (new_ptr)
+    {
+        memcpy(new_ptr, ptr, block_ptr->size);
+        free(ptr);
+    }
+
+    return new_ptr;
+}
+
+
+// Allocate memory for an array
+void* calloc(size_t num, size_t size)
+{
+    size_t total_size = num * size;
+    void*  ptr        = malloc(total_size);
+    if (ptr)
+    {
+        memset(ptr, 0, total_size);
+    }
+    return ptr;
+}
+
+
+// Define the structure
+typedef std_str_t  std_str_t;
+typedef std_str_t* std_str;
+
+std_str_t* std_str_new(char*);
+
+// Function to initialize the structure
+std_str_t* init_std_str_t(const char* data);
+
+// Function to free the structure
+void free_std_str_t(std_str_t* str);
+
+// Function to print the string data
+void print_std_str_t(const std_str_t* str);
+
+// Function to initialize the structure
+std_str_t* init_std_str_t(const char* data)
+{
+    std_str_t* new_str = (std_str_t*)malloc(sizeof(std_str_t));
+    if (!new_str)
+    {
+        return NULL;
+    }
+
+    new_str->data = malloc(slen(data) + 1);
+    if (!new_str->data)
+    {
+        free(new_str);
+        return NULL;
+    }
+
+    strcp(new_str->data, data);
+    return new_str;
+}
+
+// Function to free the structure
+void free_std_str_t(std_str_t* str)
+{
+    if (str)
+    {
+        free(str->data);
+        free(str);
+    }
+}
+
+// Function to print the string data
+void print_std_str_t(const std_str_t* str)
+{
+    if (str && str->data)
+    {
+        printf("%s\n", (char*)str->data);
+    }
+}

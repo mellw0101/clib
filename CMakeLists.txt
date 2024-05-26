@@ -106,21 +106,14 @@ set(CLIB_SOURCES
 
 set(CLIB_HEADERS
         clib.h
-        def.h
-        /usr/include/unistd.h
-        /usr/include/errno.h
-        /usr/include/pwd.h
-        /usr/include/string.h
-        /usr/include/stdlib.h
-        /usr/include/stdio.h
 )
 
 # Create the shared library
-add_library(clib_shared SHARED ${CLIB_SOURCES})
+add_library(clib_shared SHARED ${CLIB_SOURCES} ${CLIB_HEADERS})
 
 # Create the static library
 
-add_library(clib_static STATIC ${CLIB_SOURCES} ${CLIB_HEADERS} )
+add_library(clib_static STATIC ${CLIB_SOURCES} ${CLIB_HEADERS})
 
 # Specify the include directories for the library
 target_include_directories(clib_shared PUBLIC

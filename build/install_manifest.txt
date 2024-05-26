@@ -1,11 +1,4 @@
 /usr/include/clib/clib.h
-/usr/include/clib/def.h
-/usr/include/clib/unistd.h
-/usr/include/clib/errno.h
-/usr/include/clib/pwd.h
-/usr/include/clib/string.h
-/usr/include/clib/stdlib.h
-/usr/include/clib/stdio.h
 /usr/lib/libclib.so
 /usr/lib/libclib.a
 /usr/lib/cmake/clib/clibConfig.cmake
