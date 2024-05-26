@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "__asm__.h": "c",
+        "typeinfo": "c"
+    }
+}

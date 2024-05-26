@@ -16,7 +16,7 @@
 #include "def.h"
 
 
-#define __VA_ARGS__SIZE__ (sizeof((i32[]){__VA_ARGS__}) / sizeof(i32))
+// #define __VA_ARGS__SIZE__ (sizeof((i32[]){__VA_ARGS__}) / sizeof(i32))
 
 
 /**
@@ -267,7 +267,7 @@ int clib_free(void*, size_t);
 u8  fork_and_launch_binary(const char* path, char* const* argv, char* const* envp);
 
 
-#define __VA_ARGS__SIZE__ (sizeof((i32[]){__VA_ARGS__}) / sizeof(i32))
+// #define __VA_ARGS__SIZE__ (sizeof((i32[]){__VA_ARGS__}) / sizeof(i32))
 
 void* clib_memcpy(void* dest, const void* src, size_t n);
 
