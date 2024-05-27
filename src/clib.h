@@ -11,6 +11,7 @@
 
 */
 
+#include <linux/limits.h>
 #include <stddef.h>
 #include <stdio.h>
 #include "def.h"
@@ -324,14 +325,30 @@ void std_str_free(std_str str);
 
 #endif // __std_str_h__
 
-// Declaration of the assembly functions
+extern size_t clib_strlen(const char* str);
+
+extern size_t clib_strcpy(char* dest, const char* src);
+
+extern void asm_launch_binary(const char* const path, char* const* argv, char* const* envp) __attribute__((__noreturn__));
+
+
+// Declare the assembly function
+extern long add_numbers(long a, long b);
+
+extern void asm_exit(long status);
+extern size_t asm_print_str(const char* str);
 extern size_t asm_strlen(const char* str);
-extern char* asm_strcpy(char* dest, const char* src);
-
-size_t clib_strlen(const char* str);
-char* clib_strcpy(char* dest, const char* src);
-
-// Declaration of the assembly function
-extern void* asm_memcpy(void* dest, const void* src, size_t n);
+extern void asm_print_int(long num);
+extern size_t asm_add(size_t a, size_t b);
+extern size_t asm_sub(size_t a, size_t b);
+extern size_t asm_div(size_t a, size_t b);
+extern size_t asm_mul(size_t a, size_t b);
+extern void asm_exit_SUCCESS(void);
+extern void asm_exit_FAILURE(void);
+extern void asm_assert(size_t a, size_t b);
+extern void asm_assert_str_msg(size_t a, size_t b, const char* msg);
+extern char* asm_strcpy(char *__restrict __dest, const char *__restrict __src) __THROW __nonnull ((1, 2));
+extern void* asm_malloc(size_t size);
+extern void asm_append_str(char* __str, const char* __str_to_append);
 
 #endif

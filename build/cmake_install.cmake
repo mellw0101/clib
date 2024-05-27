@@ -43,10 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clib" TYPE FILE FILES
-    "/home/mellw/libs/clib/src/clib.h"
-    "/home/mellw/libs/clib/src/asm/__asm__.h"
-    )
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clib" TYPE FILE FILES "/home/mellw/libs/clib/src/clib.h")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)

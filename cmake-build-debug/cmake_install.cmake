@@ -1,4 +1,4 @@
-# Install script for directory: /home/mellw/CLionProjects/clib
+# Install script for directory: /home/mellw/libs/clib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -43,7 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clib" TYPE FILE FILES "/home/mellw/CLionProjects/clib/clib.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/clib" TYPE FILE FILES "/home/mellw/libs/clib/src/clib.h")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -53,7 +53,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libclib.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/mellw/CLionProjects/clib/cmake-build-debug/libclib.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/mellw/libs/clib/cmake-build-debug/libclib.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libclib.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libclib.so")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -66,13 +66,13 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/mellw/CLionProjects/clib/cmake-build-debug/libclib.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/mellw/libs/clib/cmake-build-debug/libclib.a")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/clib" TYPE FILE FILES
-    "/home/mellw/CLionProjects/clib/cmake-build-debug/clibConfig.cmake"
-    "/home/mellw/CLionProjects/clib/cmake-build-debug/clibConfigVersion.cmake"
+    "/home/mellw/libs/clib/cmake-build-debug/clibConfig.cmake"
+    "/home/mellw/libs/clib/cmake-build-debug/clibConfigVersion.cmake"
     )
 endif()
 
@@ -84,5 +84,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mellw/CLionProjects/clib/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mellw/libs/clib/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -3,6 +3,8 @@
         "__asm__.h": "c",
         "typeinfo": "c",
         "stddef.h": "c",
-        "def.h": "c"
+        "def.h": "c",
+        "io.h": "c",
+        "stdint.h": "c"
     }
 }

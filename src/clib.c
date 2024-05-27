@@ -1048,21 +1048,3 @@ void print_std_str_t(const std_str_t* str)
         printf("%s\n", (char*)str->data);
     }
 }
-
-
-// Wrapper functions in C
-size_t clib_strlen(const char* str)
-{
-    return asm_strlen(str);
-}
-
-char* clib_strcpy(char* dest, const char* src)
-{
-    return asm_strcpy(dest, src);
-}
-
-// Wrapper function in C
-void* clib_memcpy(void* dest, const void* src, size_t n)
-{
-    return asm_memcpy(dest, src, n);
-}
