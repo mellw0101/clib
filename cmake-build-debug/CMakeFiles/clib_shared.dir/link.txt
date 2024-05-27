@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g -shared -Wl,-soname,libclib.so -o libclib.so CMakeFiles/clib_shared.dir/src/clib.c.o
