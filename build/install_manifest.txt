@@ -1,4 +1,5 @@
 /usr/include/clib/clib.h
+/usr/include/clib/__asm__.h
 /usr/lib/libclib.so
 /usr/lib/libclib.a
 /usr/lib/cmake/clib/clibConfig.cmake

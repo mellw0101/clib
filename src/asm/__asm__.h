@@ -17,4 +17,30 @@
                 errno = -result;                                                                                               \
             }
     #endif // __asm__call__function__
+
+#ifdef size_t
+    #undef size_t
+    #define size_t unsigned long int
+#elif !defined(size_t)
+    #define size_t unsigned long int
+#endif // size_t
+static inline void* inline_asm_memcpy(void* dest, const void* src, size_t n)
+{
+    // Cast input pointers to char* for byte-wise copying
+    char*       d = (char*)dest;
+    const char* s = (const char*)src;
+
+    asm volatile(
+        "rep movsb"                 // Repeat move string byte
+        : "+D"(d), "+S"(s), "+c"(n) // Output and input operands
+        :                           // No additional input-only operands
+        : "memory"                  // Clobbered registers
+    );
+    return dest;
+}
+#undef size_t
+
+#include "src/asm/include/io.h"
+#include "src/asm/include/strlen.h"
+
 #endif // ____ASM____H__

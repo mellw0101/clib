@@ -5,6 +5,21 @@
 		{
 			"compiler" : 
 			{
+				"id" : "NASM",
+				"implicit" : {},
+				"path" : "/usr/bin/nasm",
+				"version" : ""
+			},
+			"language" : "ASM_NASM",
+			"sourceFileExtensions" : 
+			[
+				"nasm",
+				"asm"
+			]
+		},
+		{
+			"compiler" : 
+			{
 				"id" : "Clang",
 				"implicit" : 
 				{

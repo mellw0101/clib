@@ -1,8 +1,8 @@
-/home/mellw/CLionProjects/clib/build/CMakeFiles/clib_shared.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/clib_static.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/edit_cache.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/rebuild_cache.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/list_install_components.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/install.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/install/local.dir
-/home/mellw/CLionProjects/clib/build/CMakeFiles/install/strip.dir
+/home/mellw/libs/clib/build/CMakeFiles/clib_shared.dir
+/home/mellw/libs/clib/build/CMakeFiles/clib_static.dir
+/home/mellw/libs/clib/build/CMakeFiles/edit_cache.dir
+/home/mellw/libs/clib/build/CMakeFiles/rebuild_cache.dir
+/home/mellw/libs/clib/build/CMakeFiles/list_install_components.dir
+/home/mellw/libs/clib/build/CMakeFiles/install.dir
+/home/mellw/libs/clib/build/CMakeFiles/install/local.dir
+/home/mellw/libs/clib/build/CMakeFiles/install/strip.dir

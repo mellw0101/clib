@@ -27,25 +27,25 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 112,
+				"line" : 84,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 148,
+				"line" : 107,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 137,
+				"line" : 102,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 119,
+				"line" : 92,
 				"parent" : 0
 			}
 		]
@@ -77,7 +77,7 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "/home/mellw/CLionProjects/clib"
+					"path" : "/home/mellw/libs/clib"
 				}
 			],
 			"language" : "C",
@@ -140,13 +140,6 @@
 			[
 				0
 			]
-		},
-		{
-			"name" : "Header Files",
-			"sourceIndexes" : 
-			[
-				1
-			]
 		}
 	],
 	"sources" : 
@@ -154,13 +147,8 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "clib.c",
+			"path" : "src/clib.c",
 			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "clib.h",
-			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "SHARED_LIBRARY"

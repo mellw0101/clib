@@ -249,7 +249,6 @@ void clib_exit(int __status) __attribute__((__noreturn__));
 */
 int clib_dup2(int oldfd, int newfd);
 
-
 void abort(void) __attribute__((__noreturn__));
 
 
@@ -283,8 +282,6 @@ struct block_meta
     int                free;
 };
 
-void* global_base;
-
 static struct block_meta* find_free_block(struct block_meta** last, size_t size);
 static struct block_meta* request_space(struct block_meta* last, size_t size);
 static size_t             align_size(size_t size);
@@ -313,61 +310,28 @@ typedef std_str_t* std_str;
 
 
 // Function to convert std_str_t to void*
-std_str std_str_to_void_ptr(char* data)
-{
-    std_str new_str = (std_str)malloc(sizeof(std_str_t));
-    if (!new_str)
-    {
-        return NULL;
-    }
+std_str std_str_to_void_ptr(char* data);
 
-    new_str->data = data;
-
-    return new_str;
-}
-
-
-std_str std_str_new(char* const data)
-{
-    std_str_t* new_str = (std_str)malloc(sizeof(std_str_t));
-    if (!new_str)
-    {
-        return NULL;
-    }
-
-    new_str->data = malloc(slen(data) + 1);
-    if (!new_str->data)
-    {
-        free(new_str);
-        return NULL;
-    }
-
-
-    strcp(new_str->data, data);
-    return new_str;
-}
+std_str std_str_new(char* const data);
 
 static std_str_t* init_std_str_t(const char* data);
 
 // Function to convert std_str_t to char*
-static char* std_str_to_char_ptr(std_str_t* self)
-{
-    return (char*)self->data;
-}
-
+static char* std_str_to_char_ptr(std_str_t* self);
 
 // Function to free the structure
-void std_str_free(std_str str)
-{
-    if (str)
-    {
-        free(str->data);
-        free(str);
-    }
-}
-
+void std_str_free(std_str str);
 
 #endif // __std_str_h__
 
+// Declaration of the assembly functions
+extern size_t asm_strlen(const char* str);
+extern char* asm_strcpy(char* dest, const char* src);
+
+size_t clib_strlen(const char* str);
+char* clib_strcpy(char* dest, const char* src);
+
+// Declaration of the assembly function
+extern void* asm_memcpy(void* dest, const void* src, size_t n);
 
 #endif

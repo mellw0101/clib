@@ -146,6 +146,7 @@ u8 strcp(char* dest, const char* src)
     return SUCCESS;
 }
 
+
 size_t find(const char* const s, const char c)
 {
     if (s == NULL || c == '\0')
@@ -357,6 +358,7 @@ void clear_buffer(const void* const buf, size_t const size)
         ((char* const)buf)[i] = '\0';
     }
 }
+
 
 u8 clib_rm(const char* const path)
 {
@@ -790,21 +792,6 @@ u8 printf_ls_cwd(void)
 }
 
 
-void* clib_memcpy(void* dest, const void* src, size_t n)
-{
-    // Cast input pointers to char* for byte-wise copying
-    char*       d = (char*)dest;
-    const char* s = (const char*)src;
-
-    __asm__ volatile("rep movsb"                 // Repeat move string byte
-                     : "+D"(d), "+S"(s), "+c"(n) // Output and input operands
-                     :                           // No additional input-only operands
-                     : "memory"                  // Clobbered registers
-    );
-
-    return dest;
-}
-
 #define META_SIZE sizeof(struct block_meta)
 
 
@@ -963,7 +950,56 @@ void* calloc(size_t num, size_t size)
 typedef std_str_t  std_str_t;
 typedef std_str_t* std_str;
 
-std_str_t* std_str_new(char*);
+// Function to convert std_str_t to void*
+std_str std_str_to_void_ptr(char* data)
+{
+    std_str new_str = (std_str)malloc(sizeof(std_str_t));
+    if (!new_str)
+    {
+        return NULL;
+    }
+
+    new_str->data = data;
+
+    return new_str;
+}
+
+std_str std_str_new(char* const data)
+{
+    std_str_t* new_str = (std_str)malloc(sizeof(std_str_t));
+    if (!new_str)
+    {
+        return NULL;
+    }
+
+    new_str->data = malloc(slen(data) + 1);
+    if (!new_str->data)
+    {
+        free(new_str);
+        return NULL;
+    }
+
+
+    strcp(new_str->data, data);
+    return new_str;
+}
+
+// Function to convert std_str_t to char*
+static char* std_str_to_char_ptr(std_str_t* self)
+{
+    return (char*)self->data;
+}
+
+
+// Function to free the structure
+void std_str_free(std_str str)
+{
+    if (str)
+    {
+        free(str->data);
+        free(str);
+    }
+}
 
 // Function to initialize the structure
 std_str_t* init_std_str_t(const char* data);
@@ -1011,4 +1047,22 @@ void print_std_str_t(const std_str_t* str)
     {
         printf("%s\n", (char*)str->data);
     }
+}
+
+
+// Wrapper functions in C
+size_t clib_strlen(const char* str)
+{
+    return asm_strlen(str);
+}
+
+char* clib_strcpy(char* dest, const char* src)
+{
+    return asm_strcpy(dest, src);
+}
+
+// Wrapper function in C
+void* clib_memcpy(void* dest, const void* src, size_t n)
+{
+    return asm_memcpy(dest, src, n);
 }
