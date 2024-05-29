@@ -1,8 +1,5 @@
 file(REMOVE_RECURSE
-  "/home/mellw/libs/clib/obj/add.o"
-  "/home/mellw/libs/clib/obj/asm_launch_binary.o"
-  "/home/mellw/libs/clib/obj/clib_strcpy.o"
-  "/home/mellw/libs/clib/obj/clib_strlen.o"
+  "/home/mellw/libs/clib/obj/lib.o"
   "CMakeFiles/clib_static.dir/src/clib.c.o"
   "CMakeFiles/clib_static.dir/src/clib.c.o.d"
   "libclib.a"

@@ -2,8 +2,9 @@
 
 #ifndef __DEF_H__
     #define __DEF_H__
-    #define __STD_TYPE typedef
-
+    #ifndef __STD_TYPE
+        #define __STD_TYPE typedef
+    #endif
 /* Convenience types.  */
 __STD_TYPE unsigned char      __u_char;
 __STD_TYPE unsigned short int __u_short;
@@ -206,6 +207,14 @@ struct sockaddr
 extern char** environ;
 
     #define std_str_len 256
+
+#ifndef TRUE
+    #define TRUE 1
+#endif
+
+#ifndef FALSE
+    #define FALSE 0
+#endif
 
     #define NULL ((void*)0)
 

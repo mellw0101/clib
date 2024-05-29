@@ -8,18 +8,7 @@ CMake Deprecation Warning:
   use the cmake-file-api(7) to view CMake-generated project build trees.
 
 
--- The C compiler identification is GNU 14.1.1
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- The ASM_NASM compiler identification is NASM
--- Found assembler: /usr/bin/nasm
--- file name without extension: clib_strlen
--- file name without extension: clib_strcpy
--- file name without extension: asm_launch_binary
--- file name without extension: add
--- Configuring done (0.3s)
+-- file name without extension: lib
+-- Configuring done (0.0s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/mellw/libs/clib/cmake-build-debug

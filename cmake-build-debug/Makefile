@@ -162,56 +162,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named compile_clib_strlen
+# Target rules for targets named compile_lib
 
 # Build rule for target.
-compile_clib_strlen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compile_clib_strlen
-.PHONY : compile_clib_strlen
+compile_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compile_lib
+.PHONY : compile_lib
 
 # fast build rule for target.
-compile_clib_strlen/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compile_clib_strlen.dir/build.make CMakeFiles/compile_clib_strlen.dir/build
-.PHONY : compile_clib_strlen/fast
-
-#=============================================================================
-# Target rules for targets named compile_clib_strcpy
-
-# Build rule for target.
-compile_clib_strcpy: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compile_clib_strcpy
-.PHONY : compile_clib_strcpy
-
-# fast build rule for target.
-compile_clib_strcpy/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compile_clib_strcpy.dir/build.make CMakeFiles/compile_clib_strcpy.dir/build
-.PHONY : compile_clib_strcpy/fast
-
-#=============================================================================
-# Target rules for targets named compile_asm_launch_binary
-
-# Build rule for target.
-compile_asm_launch_binary: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compile_asm_launch_binary
-.PHONY : compile_asm_launch_binary
-
-# fast build rule for target.
-compile_asm_launch_binary/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compile_asm_launch_binary.dir/build.make CMakeFiles/compile_asm_launch_binary.dir/build
-.PHONY : compile_asm_launch_binary/fast
-
-#=============================================================================
-# Target rules for targets named compile_add
-
-# Build rule for target.
-compile_add: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 compile_add
-.PHONY : compile_add
-
-# fast build rule for target.
-compile_add/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/compile_add.dir/build.make CMakeFiles/compile_add.dir/build
-.PHONY : compile_add/fast
+compile_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compile_lib.dir/build.make CMakeFiles/compile_lib.dir/build
+.PHONY : compile_lib/fast
 
 #=============================================================================
 # Target rules for targets named clib_shared
@@ -278,10 +239,7 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... compile_add"
-	@echo "... compile_asm_launch_binary"
-	@echo "... compile_clib_strcpy"
-	@echo "... compile_clib_strlen"
+	@echo "... compile_lib"
 	@echo "... clib_shared"
 	@echo "... clib_static"
 	@echo "... src/clib.o"

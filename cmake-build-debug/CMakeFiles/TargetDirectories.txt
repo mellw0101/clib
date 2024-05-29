@@ -1,7 +1,4 @@
-/home/mellw/libs/clib/cmake-build-debug/CMakeFiles/compile_clib_strlen.dir
-/home/mellw/libs/clib/cmake-build-debug/CMakeFiles/compile_clib_strcpy.dir
-/home/mellw/libs/clib/cmake-build-debug/CMakeFiles/compile_asm_launch_binary.dir
-/home/mellw/libs/clib/cmake-build-debug/CMakeFiles/compile_add.dir
+/home/mellw/libs/clib/cmake-build-debug/CMakeFiles/compile_lib.dir
 /home/mellw/libs/clib/cmake-build-debug/CMakeFiles/clib_shared.dir
 /home/mellw/libs/clib/cmake-build-debug/CMakeFiles/clib_static.dir
 /home/mellw/libs/clib/cmake-build-debug/CMakeFiles/edit_cache.dir

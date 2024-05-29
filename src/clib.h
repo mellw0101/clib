@@ -351,4 +351,12 @@ extern char* asm_strcpy(char *__restrict __dest, const char *__restrict __src) _
 extern void* asm_malloc(size_t size);
 extern void asm_append_str(char* __str, const char* __str_to_append);
 
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
 #endif

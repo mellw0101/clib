@@ -19,19 +19,19 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 60,
+				"line" : 26,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 54,
+				"line" : 21,
 				"parent" : 1
 			}
 		]
 	},
-	"id" : "compile_clib_strcpy::@6890427a1f51a3e7e1df",
-	"name" : "compile_clib_strcpy",
+	"id" : "compile_lib::@6890427a1f51a3e7e1df",
+	"name" : "compile_lib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -60,19 +60,19 @@
 		{
 			"backtrace" : 2,
 			"isGenerated" : true,
-			"path" : "cmake-build-debug/CMakeFiles/compile_clib_strcpy",
+			"path" : "cmake-build-debug/CMakeFiles/compile_lib",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "cmake-build-debug/CMakeFiles/compile_clib_strcpy.rule",
+			"path" : "cmake-build-debug/CMakeFiles/compile_lib.rule",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "obj/clib_strcpy.o.rule",
+			"path" : "obj/lib.o.rule",
 			"sourceGroupIndex" : 1
 		}
 	],

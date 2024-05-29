@@ -38,7 +38,6 @@ add_library(clib_shared SHARED
     ${CLIB_SOURCES}
 )
 
-# Create the static library
 add_library(clib_static STATIC
     ${CLIB_SOURCES}
     ${CMAKE_SOURCE_DIR}/obj/lib.o

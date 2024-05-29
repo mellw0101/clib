@@ -1,2 +1,2 @@
-/usr/bin/ar qc libclib.a CMakeFiles/clib_static.dir/src/clib.c.o /home/mellw/libs/clib/obj/clib_strlen.o /home/mellw/libs/clib/obj/clib_strcpy.o /home/mellw/libs/clib/obj/asm_launch_binary.o /home/mellw/libs/clib/obj/add.o
+/usr/bin/ar qc libclib.a CMakeFiles/clib_static.dir/src/clib.c.o /home/mellw/libs/clib/obj/lib.o
 /usr/bin/ranlib libclib.a

@@ -17,41 +17,11 @@
 					<DistClean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="compile_clib_strlen">
+			<Target title="compile_lib">
 				<Option working_dir="/home/mellw/libs/clib/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 compile_clib_strlen"/>
-					<CompileFile command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="compile_clib_strcpy">
-				<Option working_dir="/home/mellw/libs/clib/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 compile_clib_strcpy"/>
-					<CompileFile command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="compile_asm_launch_binary">
-				<Option working_dir="/home/mellw/libs/clib/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 compile_asm_launch_binary"/>
-					<CompileFile command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="compile_add">
-				<Option working_dir="/home/mellw/libs/clib/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 compile_add"/>
+					<Build command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 compile_lib"/>
 					<CompileFile command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j24 -f &quot;/home/mellw/libs/clib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -198,28 +168,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/mellw/libs/clib/obj/add.o">
+		<Unit filename="/home/mellw/libs/clib/obj/lib.o">
 			<Option target="clib_static"/>
 		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/add.o.rule">
-			<Option target="clib_static"/>
-		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/asm_launch_binary.o">
-			<Option target="clib_static"/>
-		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/asm_launch_binary.o.rule">
-			<Option target="clib_static"/>
-		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/clib_strcpy.o">
-			<Option target="clib_static"/>
-		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/clib_strcpy.o.rule">
-			<Option target="clib_static"/>
-		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/clib_strlen.o">
-			<Option target="clib_static"/>
-		</Unit>
-		<Unit filename="/home/mellw/libs/clib/obj/clib_strlen.o.rule">
+		<Unit filename="/home/mellw/libs/clib/obj/lib.o.rule">
 			<Option target="clib_static"/>
 		</Unit>
 		<Unit filename="/home/mellw/libs/clib/src/clib.c">
