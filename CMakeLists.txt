@@ -23,7 +23,7 @@ function(comp_nasm_by_name file_prefix_name)
         DEPENDS ${asm_obj}
     )
 endfunction()
-comp_nasm_by_name(lib)
+# comp_nasm_by_name(lib)
 
 # Specify the source files and headers
 set(CLIB_SOURCES
@@ -36,11 +36,12 @@ set(CLIB_HEADERS
 # Create the shared library
 add_library(clib_shared SHARED
     ${CLIB_SOURCES}
+    /usr/lib/libasmlib.a
 )
 
 add_library(clib_static STATIC
     ${CLIB_SOURCES}
-    ${CMAKE_SOURCE_DIR}/obj/lib.o
+    /usr/lib/libasmlib.a
 )
 
 target_include_directories(clib_shared PUBLIC # Specify the include directories for the library

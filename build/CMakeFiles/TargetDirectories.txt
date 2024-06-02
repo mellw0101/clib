@@ -1,4 +1,3 @@
-/home/mellw/libs/clib/build/CMakeFiles/compile_lib.dir
 /home/mellw/libs/clib/build/CMakeFiles/clib_shared.dir
 /home/mellw/libs/clib/build/CMakeFiles/clib_static.dir
 /home/mellw/libs/clib/build/CMakeFiles/edit_cache.dir

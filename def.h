@@ -204,7 +204,7 @@ struct sockaddr
 
     #define MAX_IPv4_SIZE 16
 
-extern char** environ;
+// extern char** environ;
 
     #define std_str_len 256
 

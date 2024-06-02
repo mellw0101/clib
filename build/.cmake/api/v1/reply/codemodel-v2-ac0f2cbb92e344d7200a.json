@@ -17,8 +17,7 @@
 					"targetIndexes" : 
 					[
 						0,
-						1,
-						2
+						1
 					]
 				}
 			],
@@ -34,8 +33,7 @@
 					"targetIndexes" : 
 					[
 						0,
-						1,
-						2
+						1
 					]
 				}
 			],
@@ -44,22 +42,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "clib_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-clib_shared-Debug-2405b862985d3b33df98.json",
+					"jsonFile" : "target-clib_shared-Debug-d7dcc278084141bfaa92.json",
 					"name" : "clib_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "clib_static::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-clib_static-Debug-83bfc566a026d96fa121.json",
+					"jsonFile" : "target-clib_static-Debug-6f95b030bb0ef34628d3.json",
 					"name" : "clib_static",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 0,
-					"id" : "compile_lib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-compile_lib-Debug-b530814b07e48f47f786.json",
-					"name" : "compile_lib",
 					"projectIndex" : 0
 				}
 			]

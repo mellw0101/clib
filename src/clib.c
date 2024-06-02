@@ -1,4 +1,5 @@
 #include "clib.h"
+#include <asmlib/lib.h>
 
 #include <sys/stat.h>
 #include "def.h"
@@ -780,9 +781,9 @@ u8 fork_and_launch_binary(const char* const path, char* const* const argv, char*
 
 u8 printf_ls_cwd(void)
 {
-    char* cwd = malloc(std_str_len);
+    char* cwd = clib_malloc(std_str_len);
     get_cwd(cwd, std_str_len);
-    printf("cwd = %s\n", cwd);
+    // printf("cwd = %s\n", cwd);
 
     char* const argv[3] = {"/usr/bin/ls", cwd, NULL};
 
@@ -807,6 +808,7 @@ struct block_meta* find_free_block(struct block_meta** last, size_t size)
         *last   = current;
         current = current->next;
     }
+
     return current;
 }
 
@@ -841,7 +843,7 @@ size_t align_size(size_t size)
 
 
 // Allocate memory
-void* malloc(size_t size)
+void* clib_malloc(size_t size)
 {
     struct block_meta* block;
 
@@ -859,6 +861,7 @@ void* malloc(size_t size)
         {
             return NULL;
         }
+
         global_base = block;
     }
     else
@@ -913,7 +916,7 @@ void* realloc(void* ptr, size_t size)
 {
     if (!ptr)
     {
-        return malloc(size);
+        return clib_malloc(size);
     }
 
     struct block_meta* block_ptr = (struct block_meta*)ptr - 1;
@@ -922,7 +925,7 @@ void* realloc(void* ptr, size_t size)
         return ptr;
     }
 
-    void* new_ptr = malloc(size);
+    void* new_ptr = clib_malloc(size);
     if (new_ptr)
     {
         memcpy(new_ptr, ptr, block_ptr->size);
@@ -937,114 +940,10 @@ void* realloc(void* ptr, size_t size)
 void* calloc(size_t num, size_t size)
 {
     size_t total_size = num * size;
-    void*  ptr        = malloc(total_size);
+    void*  ptr        = clib_malloc(total_size);
     if (ptr)
     {
         memset(ptr, 0, total_size);
     }
     return ptr;
-}
-
-
-// Define the structure
-typedef std_str_t  std_str_t;
-typedef std_str_t* std_str;
-
-// Function to convert std_str_t to void*
-std_str std_str_to_void_ptr(char* data)
-{
-    std_str new_str = (std_str)malloc(sizeof(std_str_t));
-    if (!new_str)
-    {
-        return NULL;
-    }
-
-    new_str->data = data;
-
-    return new_str;
-}
-
-std_str std_str_new(char* const data)
-{
-    std_str_t* new_str = (std_str)malloc(sizeof(std_str_t));
-    if (!new_str)
-    {
-        return NULL;
-    }
-
-    new_str->data = malloc(slen(data) + 1);
-    if (!new_str->data)
-    {
-        free(new_str);
-        return NULL;
-    }
-
-
-    strcp(new_str->data, data);
-    return new_str;
-}
-
-// Function to convert std_str_t to char*
-static char* std_str_to_char_ptr(std_str_t* self)
-{
-    return (char*)self->data;
-}
-
-
-// Function to free the structure
-void std_str_free(std_str str)
-{
-    if (str)
-    {
-        free(str->data);
-        free(str);
-    }
-}
-
-// Function to initialize the structure
-std_str_t* init_std_str_t(const char* data);
-
-// Function to free the structure
-void free_std_str_t(std_str_t* str);
-
-// Function to print the string data
-void print_std_str_t(const std_str_t* str);
-
-// Function to initialize the structure
-std_str_t* init_std_str_t(const char* data)
-{
-    std_str_t* new_str = (std_str_t*)malloc(sizeof(std_str_t));
-    if (!new_str)
-    {
-        return NULL;
-    }
-
-    new_str->data = malloc(slen(data) + 1);
-    if (!new_str->data)
-    {
-        free(new_str);
-        return NULL;
-    }
-
-    strcp(new_str->data, data);
-    return new_str;
-}
-
-// Function to free the structure
-void free_std_str_t(std_str_t* str)
-{
-    if (str)
-    {
-        free(str->data);
-        free(str);
-    }
-}
-
-// Function to print the string data
-void print_std_str_t(const std_str_t* str)
-{
-    if (str && str->data)
-    {
-        printf("%s\n", (char*)str->data);
-    }
 }

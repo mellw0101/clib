@@ -40,12 +40,6 @@ include CMakeFiles/rules.ninja
 # Logical path to working directory; prefix for absolute paths.
 
 cmake_ninja_workdir = /home/mellw/libs/clib/build/
-
-#############################################
-# Utility command for compile_lib
-
-build compile_lib: phony CMakeFiles/compile_lib /home/mellw/libs/clib/obj/lib.o
-
 # =============================================================================
 # Object build statements for SHARED_LIBRARY target clib_shared
 
@@ -88,7 +82,7 @@ build libclib.so: C_SHARED_LIBRARY_LINKER__clib_shared_Debug CMakeFiles/clib_sha
 #############################################
 # Order-only phony target for clib_static
 
-build cmake_object_order_depends_target_clib_static: phony || /home/mellw/libs/clib/obj/lib.o
+build cmake_object_order_depends_target_clib_static: phony || .
 
 build CMakeFiles/clib_static.dir/src/clib.c.o: C_COMPILER__clib_static_unscanned_Debug /home/mellw/libs/clib/src/clib.c || cmake_object_order_depends_target_clib_static
   DEP_FILE = CMakeFiles/clib_static.dir/src/clib.c.o.d
@@ -105,7 +99,7 @@ build CMakeFiles/clib_static.dir/src/clib.c.o: C_COMPILER__clib_static_unscanned
 #############################################
 # Link the static library libclib.a
 
-build libclib.a: C_STATIC_LIBRARY_LINKER__clib_static_Debug /home/mellw/libs/clib/obj/lib.o CMakeFiles/clib_static.dir/src/clib.c.o
+build libclib.a: C_STATIC_LIBRARY_LINKER__clib_static_Debug CMakeFiles/clib_static.dir/src/clib.c.o
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/clib_static.dir
   POST_BUILD = :
@@ -179,21 +173,6 @@ build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
 
 build install/strip: phony CMakeFiles/install/strip.util
 
-
-#############################################
-# Phony custom command for CMakeFiles/compile_lib
-
-build CMakeFiles/compile_lib | ${cmake_ninja_workdir}CMakeFiles/compile_lib: phony /home/mellw/libs/clib/obj/lib.o
-
-
-#############################################
-# Custom command for /home/mellw/libs/clib/obj/lib.o
-
-build /home/mellw/libs/clib/obj/lib.o: CUSTOM_COMMAND /home/mellw/libs/clib/src/lib.asm
-  COMMAND = cd /home/mellw/libs/clib/build && nasm -f elf64 -o /home/mellw/libs/clib/obj/lib.o /home/mellw/libs/clib/src/lib.asm
-  DESC = Compiling NASM source file: /home/mellw/libs/clib/src/lib.asm to /home/mellw/libs/clib/obj/lib.o
-  restat = 1
-
 # =============================================================================
 # Target aliases.
 
@@ -209,7 +188,7 @@ build clib_static: phony libclib.a
 #############################################
 # Folder: /home/mellw/libs/clib/build
 
-build all: phony compile_lib libclib.so libclib.a
+build all: phony libclib.so libclib.a
 
 # =============================================================================
 # Built-in targets

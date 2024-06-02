@@ -16,6 +16,11 @@
 #include <stdio.h>
 #include "def.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 
 // #define __VA_ARGS__SIZE__ (sizeof((i32[]){__VA_ARGS__}) / sizeof(i32))
 
@@ -55,7 +60,7 @@
 */
 void read_from_file(const char* filename);
 
-u8 clib_fputs(const char* restrict s, FILE* restrict stream);
+u8 clib_fputs(const char* __restrict s, FILE* __restrict stream);
 
 
 /**
@@ -286,70 +291,39 @@ struct block_meta
 static struct block_meta* find_free_block(struct block_meta** last, size_t size);
 static struct block_meta* request_space(struct block_meta* last, size_t size);
 static size_t             align_size(size_t size);
-void*                     malloc(size_t size);
-void                      free(void* ptr);
+void*                     clib_malloc(size_t size);
+// void                      free(void* ptr, size_t size);
 void*                     realloc(void* ptr, size_t size);
 void*                     calloc(size_t num, size_t size);
 
 #endif
 
-
-#ifndef __std_str_h__
-    #define __std_str_h__
-
-// Define the structure
-typedef struct std_str_t std_str_t;
-typedef std_str_t        std_str_t;
-
-struct std_str_t
-{
-    void* data;
-    void* (*constructor)(void* self);
-};
-
-typedef std_str_t* std_str;
-
-
-// Function to convert std_str_t to void*
-std_str std_str_to_void_ptr(char* data);
-
-std_str std_str_new(char* const data);
-
-static std_str_t* init_std_str_t(const char* data);
-
-// Function to convert std_str_t to char*
-static char* std_str_to_char_ptr(std_str_t* self);
-
-// Function to free the structure
-void std_str_free(std_str str);
-
-#endif // __std_str_h__
-
 extern size_t clib_strlen(const char* str);
-
 extern size_t clib_strcpy(char* dest, const char* src);
-
 extern void asm_launch_binary(const char* const path, char* const* argv, char* const* envp) __attribute__((__noreturn__));
 
+// // Declare the assembly function
+// extern long add_numbers(long a, long b);
 
-// Declare the assembly function
-extern long add_numbers(long a, long b);
+// extern void asm_exit(long status);
+// extern size_t asm_print_str(const char* str);
+// extern size_t asm_strlen(const char* str);
+// extern void asm_print_int(long num);
+// extern size_t asm_add(size_t a, size_t b);
+// extern size_t asm_sub(size_t a, size_t b);
+// extern size_t asm_div(size_t a, size_t b);
+// extern size_t asm_mul(size_t a, size_t b);
+// extern void asm_exit_SUCCESS(void);
+// extern void asm_exit_FAILURE(void);
+// extern void asm_assert(size_t a, size_t b);
+// extern void asm_assert_str_msg(size_t a, size_t b, const char* msg);
+// extern char* asm_strcpy(char *__restrict __dest, const char *__restrict __src) __THROW __nonnull ((1, 2));
+// extern void* asm_malloc(size_t size);
+// extern void asm_append_str(char* __str, const char* __str_to_append);
 
-extern void asm_exit(long status);
-extern size_t asm_print_str(const char* str);
-extern size_t asm_strlen(const char* str);
-extern void asm_print_int(long num);
-extern size_t asm_add(size_t a, size_t b);
-extern size_t asm_sub(size_t a, size_t b);
-extern size_t asm_div(size_t a, size_t b);
-extern size_t asm_mul(size_t a, size_t b);
-extern void asm_exit_SUCCESS(void);
-extern void asm_exit_FAILURE(void);
-extern void asm_assert(size_t a, size_t b);
-extern void asm_assert_str_msg(size_t a, size_t b, const char* msg);
-extern char* asm_strcpy(char *__restrict __dest, const char *__restrict __src) __THROW __nonnull ((1, 2));
-extern void* asm_malloc(size_t size);
-extern void asm_append_str(char* __str, const char* __str_to_append);
+#ifdef __cplusplus
+}
+#endif
 
 #ifndef TRUE
 #define TRUE 1
